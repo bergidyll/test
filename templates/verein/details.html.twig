@@ -1,0 +1,562 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verein{% endblock %}
+
+{% use 'form/errors.html.twig' %}
+
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="row">
+            <div class="twelve wide column">
+                <h1 class="ui teal header">Verein / Einstellungen</h1>
+            </div>
+        </div>
+        <div class="three wide column">
+            <div id="submenu" class="ui vertical labeled icon basic fluid buttons">
+                <div class="ui basic button tab active" data-tab="stammdaten">
+                    <i class="icon angle right"></i>Verein
+                </div>
+                <div class="ui basic button tab" data-tab="beitrag">
+                    <i class="icon angle right"></i>Beiträge & Kaution
+                </div>
+                <div class="ui basic button tab" data-tab="versicherung">
+                    <i class="icon angle right"></i>Versicherungen
+                </div>
+                <div class="ui basic button tab" data-tab="pacht">
+                    <i class="icon angle right"></i>Pacht & Steuer
+                </div>
+                <div class="ui basic button tab" data-tab="strom">
+                    <i class="icon angle right"></i>Strom & Wasser
+                </div>
+                <div class="ui basic button tab" data-tab="umlagen">
+                    <i class="icon angle right"></i>Umlagen
+                </div>
+            </div>
+        </div>
+
+        <div class="ten wide column">
+            <div class="ui segments">
+                    <div class="ui segment">
+                        <div class="ui tab active" data-tab="stammdaten">
+                            <div class="ui form">
+                                <h3 class="ui teal header">Verein - Stammdaten</h3>
+                                <div class="ui hidden divider"></div>
+
+                                <div class="fields">
+                                    <div class="twelve wide field">
+                                        <label for="">Name</label>
+                                        <input type="text" name="" value="{{ verein.name }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Gründungsdatum</label>
+                                        <input type="text" name="" value="{{ verein.gruendungsdatum|date('d.m.Y') }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="seven wide field">
+
+                                    </div>
+                                    <div class="nine wide field">
+                                        <label for="">&nbsp;</label>
+                                        <div class="ui mini teal message">
+                                            Erlaubte Dateitypen: PNG, JPG, GIF
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Kontakt</h4>
+
+                                <div class="fields">
+                                    <div class="three wide field">
+                                        <label for="">PLZ</label>
+                                        <input type="text" name="" value="{{ verein.plz }}" readonly>
+                                    </div>
+                                    <div class="five wide field">
+                                        <label for="">Ort</label>
+                                        <input type="text" name="" value="{{ verein.ort }}" readonly>
+                                    </div>
+                                    <div class="eight wide field">
+                                        <label for="">Straße / Nr.</label>
+                                        <input type="text" name="" value="{{ verein.anschrift }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="eight wide field">
+                                        <label for="">Telefon</label>
+                                        <input type="text" name="" value="{{ verein.telefon }}" readonly>
+                                    </div>
+                                    <div class="eight wide field">
+                                        <label for="">E-Mail</label>
+                                        <input type="text" name="" value="{{ verein.email }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Bankverbindung</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <label for="">IBAN</label>
+                                        <input type="text" name="" value="{{ verein.iban }}" readonly>
+                                    </div>
+                                    <div class="five wide field">
+                                        <label for="">BIC</label>
+                                        <input type="text" name="" value="{{ verein.bic }}" readonly>
+                                    </div>
+                                    <div class="six wide field">
+                                        <label for="">Name der Bank</label>
+                                        <input type="text" name="" value="{{ verein.bank }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Registrierung</h4>
+
+                                <div class="fields">
+                                    <div class="field five wide">
+                                        <label for="">Reigistereintrag</label>
+                                        <input type="text" name="" value="{{ verein.register }}" readonly>
+                                    </div>
+                                    <div class="field three wide">
+                                        <label for="">Registernummer</label>
+                                        <input type="text" name="" value="{{ verein.registernummer }}" readonly>
+                                    </div>
+                                    <div class="field eight wide">
+                                        <label for="">Registergericht</label>
+                                        <input type="text" name="" value="{{ verein.registergericht }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Finanzamt</h4>
+                                <div class="fields">
+                                    <div class="field five wide">
+                                        <label for="">Steuernummer</label>
+                                        <input type="text" name="" value="{{ verein.steuernummer }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Vorstand</h4>
+
+                                <div class="sixteen wide column">
+                                    <div class="three wide column">
+                                        <div class="fields fix-label">
+                                            <div class="field inline">
+                                                <label for="">Vorsitzender</label>
+                                                <input type="text" class="warning" readonly value="Max Mustermann">
+                                            </div>
+                                        </div>
+                                        <div class="fields fix-label">
+                                            <div class="field inline">
+                                                <label for="">Stellvertreter</label>
+                                                <input type="text" class="warning" readonly value="Gerda Beispiel">
+                                            </div>
+                                        </div>
+                                        <div class="fields fix-label">
+                                            <div class="field inline">
+                                                <label for="">Kassierer</label>
+                                                <input type="text" class="warning" readonly value="John Doe">
+                                            </div>
+                                        </div>
+                                        <div class="fields fix-label">
+                                            <div class="field inline">
+                                                <label for="">Fachberater</label>
+                                                <input type="text" class="warning" readonly value="Jamie Harrington">
+                                            </div>
+                                        </div>
+                                        <div class="fields fix-label">
+                                            <div class="field inline">
+                                                <label for="">Schriftführer</label>
+                                                <input type="text" class="warning" readonly value="Jane Doe">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="six wide column">
+                                        <div class="ui message">
+                                            <p>Zuordnung des Vorstandes erfolgt über Mitglieder (Funktion im Verein).</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="beitrag">
+                            <div class="ui form">
+                                <h3 class="ui teal header">Beiträge</h3>
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Mitgliedsbeitrag Verein</h4>
+
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">Mitgliedsbeitrag aktiv</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.mitgliedsbeitragAktiv|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Mitgliedsbeitrag passiv</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.mitgliedsbeitragPassiv|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Andere Beiträge</h4>
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">Beitrag Regionalverband</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.beitragRegionalverband|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Beitrag Landesverband</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.beitragLandesverband|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Beitrag Bundesverband</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.beitragBundesverband|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Sonstiges</h4>
+
+                                <div class="fields">
+                                    <div class="two wide field">
+                                        <label for="">Anzahl Pflichtstunden</label>
+                                        <input type="text" name="" value="{{ verein.pflichtstundensoll}}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Bettrag Pflichtstunden</label>
+                                        <input type="text" name="" value="{{ verein.pflichtstundenbetrag|number_format(2, ',') }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">kautionsbetrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.kautionsbetrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag Zeitung</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.zeitungsbetrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="versicherung">
+                            <div class="ui form">
+                                <h3 class="ui teal header">Versicherungen</h3>
+                                <div class="ui hidden divider"></div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Versicherung 1</label>
+                                        <input type="text" name="" value="{{ verein.vers1 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.vers1Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Versicherung 1</label>
+                                        <input type="text" name="" value="{{ verein.vers2 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.vers2Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Versicherung 1</label>
+                                        <input type="text" name="" value="{{ verein.vers3 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.vers3Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Versicherung 1</label>
+                                        <input type="text" name="" value="{{ verein.vers4 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.vers4Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Versicherung 1</label>
+                                        <input type="text" name="" value="{{ verein.vers5 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.vers5Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="pacht">
+                            <div class="ui form">
+                                <h3 class="ui teal header">Pacht & Steuer</h3>
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Pacht</h4>
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">Pacht je m²</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.gartenpacht|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Gesamtfläche der Anlage</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.gesamtflaeche|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">Pacht für Parkplatz</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.parkplatzpacht|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Grundsteuer</h4>
+
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <div class="ui right labeled input">
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <div class="ui right labeled input">
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="strom">
+                            <div class="ui form">
+                                <h3 class="ui teal header">Strom & Wasser</h3>
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Strom</h4>
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">Grundpreis je kWh</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.grundpreisStrom|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Fixkosten Strom</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.fixkostenStrom|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Gebühr Zähler</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.betragStromzaehlertausch|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui hidden divider"></div>
+                                <h4 class="ui teal header">Wasser</h4>
+
+                                <div class="fields">
+                                    <div class="four wide field">
+                                        <label for="">Grundpreis je m³</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.grundpreisWasser|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Fixkosten Wasser</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.fixkostenWasser|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Gebühr Wasseruhr</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.betragWasserzaehlertausch|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="umlagen">
+                            <div class="ui form">
+                                <h3 class="ui teal header">Umlagen</h3>
+                                <div class="ui hidden divider"></div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Umlage 1</label>
+                                        <input type="text" name="" value="{{ verein.umlage1 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.umlage1Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Umlage 2</label>
+                                        <input type="text" name="" value="{{ verein.umlage2 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.umlage2Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Umlage 3</label>
+                                        <input type="text" name="" value="{{ verein.umlage3 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.umlage3Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Umlage 4</label>
+                                        <input type="text" name="" value="{{ verein.umlage4 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.umlage4Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="ten wide field">
+                                        <label for="">Umlage 5</label>
+                                        <input type="text" name="" value="{{ verein.umlage5 }}" readonly>
+                                    </div>
+                                    <div class="four wide field">
+                                        <label for="">Betrag</label>
+                                        <div class="ui right labeled input">
+                                            <input type="text" name="" value="{{ verein.umlage5Betrag|number_format(2, ',') }}" readonly>
+                                            <div class="ui label">€</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--end segment -->
+
+                    <div class="ui secondary segment">
+                        <a href="{{ path('verein_bearbeiten', {'id': 1}) }}" class="ui button right floated button primary">
+                            <i class="icon edit"></i> Bearbeiten
+                        </a>
+                        <div class="ui clearing hidden fitted divider"></div>
+
+                    </div>
+                </div>
+
+
+            </div> <!--end segments -->
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+
+        $('#submenu .button').tab();
+
+    })
+</script>
+{% endblock %}

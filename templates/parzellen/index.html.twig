@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parzellen{% endblock %}
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <h1 class="ui teal header">Übersicht Parzellen</h1>
+            {{ include('parzellen/_filter.html.twig') }}
+
+        </div>
+
+        <div class="four wide column a-right">
+            <a href="{{ path('parzelle_neu') }}" class="ui button small green js-add"><i class="icon plus"></i> Neue Parzelle</a>
+        </div>
+
+        <div class="sixteen wide column">
+            <div style="overflow-x:auto;">
+
+                <table class="ui sortable selectable striped table tr-clickable">
+                    <thead>
+                        <tr>
+                            <th class="default-sort">Garten</th>
+                            <th>Status</th>
+                            <th>Bereich</th>
+                            <th>Größe</th>
+                            <th>1. Pächter</th>
+                            <th>2. Pächter</th>
+                            <th class="three wide no-sort">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for parzelle in parzellen %}
+                        <tr {% if parzelle.status is same as 'F' %}class="error state-f"{% elseif parzelle.status is same as 'G' %}class="warning state-g"{% endif %} data-id="{{ parzelle.id }}">
+                            <td>
+                                {{ parzelle.nummer }}
+                            </td>
+                            <td>
+                                {{ parzelle.status }}
+                            </td>
+
+                            <td>
+                                {{ parzelle.bereich }}
+                            </td>
+                            <td>
+                                {{ parzelle.groesse }} m²
+                            </td>
+                            {% set a = parzelle.mitglieders|length %}
+                            {% if a == 0 %}
+                                <td></td>
+                                <td></td>
+                            {% elseif a == 1 %}
+                                <td>
+                                    {% for item in parzelle.mitglieders %}
+                                    {{ item.vorname}} {{ item.nachname}}
+                                    {% endfor %}
+                                </td>
+                                <td></td>
+                            {% else %}
+                                {% for item in parzelle.mitglieders %}
+                                    {% if item.status is same as 'A' %}
+                                    <td>
+                                        {{ item.vorname}} {{ item.nachname}}
+                                    </td>
+                                    {% endif %}
+                                    {% if item.status is same as 'P' %}
+                                    <td>
+                                        {{ item.vorname}} {{ item.nachname}}
+                                    </td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <td class="actions">
+                                <a href="{{ path('parzelle_bearbeiten', {'id': parzelle.id}) }}" class="ui button icon mini">
+                                    <i class="icon edit"></i> Bearbeiten
+                                </a>
+                                <a href="{{ path('ablesungen_neu', {'id': parzelle.id}) }}" class="ui button icon mini">
+                                    <i class="icon edit"></i> Ablesung
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script src="/dist/tablesort.js"></script>
+<script>
+    $(document).ready(function() {
+        $('table.sortable').tablesort().data('tablesort').sort($("th.default-sort"));
+
+        $('tbody tr td:not(.actions)').on('click', function() {
+            var id = $(this).parent('tr').attr('data-id');
+            window.location.href = 'parzelle/details/' + id;
+        })
+
+
+        $('.js-plots-filter').on('click', function(e) {
+            e.preventDefault();
+            $('.js-plots-filter').removeClass('green');
+            $('tbody tr').show();
+
+            var state = $(this).attr('id');
+
+            $('tbody tr:not(.' + state + ')').hide();
+            $(this).addClass('green');
+
+        });
+
+        $('#plots-all').on('click', function(e) {
+            e.preventDefault();
+            $('tbody tr').show();
+
+        })
+    })
+</script>
+
+{% endblock %}

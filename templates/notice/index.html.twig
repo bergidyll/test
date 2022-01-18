@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello NoticeController!{% endblock %}
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <h1 class="ui teal header">Dashboard</h1>
+        </div>
+
+        <div class="equal idth row">
+            <div class="column">
+                <div class="leading-text">
+                    Hallo <strong>{{ app.user.firstname }}</strong>. Schön das du wieder da bist.
+                </div>
+            </div>
+        </div>
+
+        <div class="ui hidden divider"></div>
+
+
+        <div class="row">
+            <div class="column ten wide">
+                <h2>Gibt es etwas zu beachten?</h2>
+
+                {% if notice %}
+                <a href="{{ path('dashboard_neu') }}">Info erstellen</a>
+                    {% for n in notice %}
+                    <div class="ui fluid card {% if n.status == 'W' %}yellow{% elseif n.status == 'SW' %}red{% endif %}">
+                        <div class="content">
+                            <a href="{{ path('dashboard_loeschen', {'id': n.id}) }}" onclick="return confirm('Wirklich löschen?')" class="right floated">
+                                <i class="icon close"></i>
+                            </a>
+                            <div class="sub header">
+                                {{ n.headline }}
+                            </div>
+                            <div class="description">
+                                {{ n.text }}
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <small>erstellt am: {{ n.createdAt|date('d.m.Y') }} von: {{ n.createFrom}}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                {% else %}
+                    <h4 class="ui header">Es gibt keine Hinweise! </h4>
+                    <p>
+                        <a href="{{ path('dashboard_neu') }}">Erstelle einen neuen Hinweis</a>
+                    </p>
+                {% endif %}
+            </div>
+            <div class="six wide column">
+                <h2>Wer war online?</h2>
+                <p>todo</p>
+
+
+                {% for item in user %}
+                    <div class="ui message">
+                        <div class="header">{{ item.firstname }} {{ item.lastname }}</div>
+                        <p>
+                            zuletzt online: {{ item.lastLogin|date('d.m.Y - H:i' ) }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="ui hidden divider"></div>
+
+        <div class="equal width row">
+            <div class="column">
+                <h2>Letzte Aktivitäten</h2>
+                <p>todo </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}

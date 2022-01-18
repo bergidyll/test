@@ -1,0 +1,46 @@
+<div>
+    <div id="state-all" class="ui label js-member-filter">
+        Miglieder gesamt
+        <div class="detail">{{ mitglieder|length }}</div>
+    </div>
+    <div id="state-a" class="ui label green js-member-filter">
+        aktive Mitglieder
+        <div class="detail">
+            {% set counter_a = 0 %}
+            {% for item in mitglieder %}
+                {% if item.status is same as ('A') %}
+                    {% set counter_a = counter_a + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {{ counter_a }}
+        </div>
+    </div>
+
+    <div id="state-p" class="ui label js-member-filter">
+        passive Miglieder
+        <div class="detail">
+            {% set counter_p = 0 %}
+            {% for item in mitglieder %}
+                {% if item.status is same as ('P') %}
+                    {% set counter_p = counter_p + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {{ counter_p }}
+        </div>
+    </div>
+    <div id="state-e" class="ui label js-member-filter">
+        Ehrenmiglieder
+        <div class="detail">
+            {% set counter_e = 0 %}
+            {% for item in mitglieder %}
+                {% if item.status is same as ('E') %}
+                    {% set counter_e = counter_e + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {{ counter_e }}
+        </div>
+    </div>
+</div>

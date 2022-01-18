@@ -1,0 +1,293 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Details Nitglied{% endblock %}
+
+{% block body %}
+
+
+
+
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="row">
+            <div class="twelve wide column">
+                <h1 class="ui teal header">Mitglied: {{ mitglieder.vorname }} {{ mitglieder.nachname }}</h1>
+            </div>
+        </div>
+        <div class="three wide column">
+            <div id="submenu" class="ui vertical labeled icon basic fluid buttons">
+                <div class="ui basic button active" data-tab="stammdaten">
+                    <i class="icon angle right"></i> Stammdaten
+                </div>
+                <div class="ui basic button" data-tab="verein">
+                    <i class="icon angle right"></i> Mitgliedschaft
+                </div>
+                <div class="ui basic button" data-tab="rechnungen">
+                    <i class="icon angle right"></i> Rechnungen
+                </div>
+                <div class="ui basic button" data-tab="pflichtstunden">
+                    <i class="icon angle right"></i> Pflichtstunden
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <div class="ui small yellow message">
+                <div class="content">
+                    Datenbank-ID: {{ mitglieder.id }}<br>
+                    Erstellt am: {{ mitglieder.createdat|date('d.m.Y') }}<br>
+                    Zuletzt bearbeitet am: {{ mitglieder.updatedat|date('d.m.Y') }}<br>
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <a href="{{ path('mitglied_loeschen', {'id': mitglieder.id}) }}" onclick="return confirm('Wirklich löschen?')" class="ui button icon red trash">
+                <i class="icon trash"></i> Löschen
+            </a>
+        </div>
+
+        <div class="ten wide column">
+            <div class="ui segments">
+                <div class="ui segment">
+
+                    <div class="ui tab active" data-tab="stammdaten">
+                        <div class="ui form">
+                            <div class="fields">
+                                <div class="three wide field">
+                                    <label>Anrede</label>
+                                    <input type="text" value="{{ mitglieder.anrede }}" readonly>
+                                </div>
+                                <div class="six wide field">
+                                    <label>Vorname</label>
+                                    <input type="text" value="{{ mitglieder.vorname }}" readonly>
+                                </div>
+                                <div class="seven wide field">
+                                    <label>Nachname</label>
+                                    <input type="text" value="{{ mitglieder.nachname }}" readonly>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="three wide field">
+                                    <label>Geburtstag</label>
+                                    <input type="text" value="{% if mitglieder.geburtsdatum %}{{ mitglieder.geburtsdatum|date('d.m.Y') }} {% endif %}" readonly>
+                                </div>
+                                <div class="thirteen wide field">
+                                    <label>Beruf</label>
+                                    <input type="text" value="{{ mitglieder.beruf }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Anschrift</h4>
+
+                            <div class="fields">
+                                <div class="three wide field">
+                                    <label>PLZ</label>
+                                    <input type="text" value="{{ mitglieder.plz }}" readonly>
+                                </div>
+                                <div class="five wide field">
+                                    <label>Ort</label>
+                                    <input type="text" value="{{ mitglieder.ort }}" readonly>
+                                </div>
+                                <div class="eight wide field">
+                                    <label>Straße / Nr.</label>
+                                    <input type="text" value="{{ mitglieder.strasse }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Kontakt</h4>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>E-Mail</label>
+                                    <input type="text" value="{{ mitglieder.email }}" readonly>
+                                </div>
+                                <div class="field">
+                                    <label>Telefon</label>
+                                    <input type="text" value="{{ mitglieder.telefon }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- tab section -->
+                    <div class="ui tab" data-tab="verein">
+                        <div class="ui form">
+                            <div class="fields">
+                                <div class="two wide field">
+                                    <label>Gartennummer</label>
+                                    <input type="text" value="{{ mitglieder.parzelle.nummer }}" readonly>
+                                </div>
+                                <div class="one wide field">
+                                    <label for="">&nbsp;</label>
+                                    <a href="{{ path('parzelle_details', {'id': mitglieder.parzelle.id}) }}" title="Zur Parzelle" class="ui icon button"><i class="icon arrow circle right"></i></a>
+
+                                </div>
+                                <div class="three wide field">
+                                    <label>Status</label>
+                                    <input type="text" value="{{ mitglieder.status }}" readonly>
+                                </div>
+                                <div class="three wide field">
+                                    <label>Mitgliedsnummer</label>
+                                    <input type="text" value="{{ mitglieder.mitgliedsnummer }}" readonly>
+                                </div>
+
+                            </div>
+                            <div class="fields">
+                                <div class="three wide field">
+                                    <label>Eintrittsdatum</label>
+                                    <input type="text" value="{% if mitglieder.eintrittsdatum %} {{ mitglieder.eintrittsdatum|date('d.m.Y') }} {% endif %}" readonly>
+                                </div>
+                                <div class="three wide field">
+                                    <label>Austrittsdatum</label>
+                                    <input type="text" value="{% if mitglieder.austrittsdatum %} {{ mitglieder.austrittsdatum|date('d.m.Y') }} {% endif %}" readonly>
+                                </div>
+                                <div class="three wide field">
+                                    <label>Kaution</label>
+                                    <div class="ui right labeled input">
+                                        <input type="text" value="{{ mitglieder.kaution|number_format(2, ',')  }}" readonly>
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="six wide field">
+                                    <label>Funktion im Verein</label>
+                                    <input type="text" value="{{ mitglieder.funktion }}" readonly>
+                                </div>
+                                <div class="three wide field">
+                                    <label>Zeitungsbezug</label>
+                                    <input type="text" value="{{ mitglieder.zeitungsbezug }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Parkplatz</h4>
+                            <div class="fields">
+                                <div class="three wide field">
+                                    <label>Parkplatz</label>
+                                    <input type="text" value="{{ mitglieder.parkplatz }}" readonly>
+                                </div>
+                                <div class="three wide field">
+                                    <label>Anzahl Parkplätze</label>
+                                    <input type="text" value="{{ mitglieder.parkplatzanzahl }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Zahlungsbefreit</h4>
+
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="" value="{{ mitglieder.zbMitgliedsbeitrag}}">
+                                    <label>Mitgliedsbeitrag</label>
+                                </div>
+                            </div>
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="" value="{{ mitglieder.zbPflichtstunden}}">
+                                    <label>Pflichtstunden</label>
+                                </div>
+                            </div>
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="" value="{{ mitglieder.zbZeitung}}">
+                                    <label>Zeitungsbezug</label>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+
+                            <div class="fields">
+                                <div class="sixteen wide field">
+                                    <label>Notiz</label>
+                                    <textarea name="name" rows="8" cols="80" readonly>{{ mitglieder.notiz }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- tab section -->
+
+                    <div class="ui tab" data-tab="rechnungen">
+                        <div class="ui hidden divider"></div>
+
+                        <h3 class="ui teal header">Übersicht der erstellten Rechnungen</h3>
+                        <div class="ui hidden divider"></div>
+                        {% for data in mitglieder.rechnungen %}
+                            {{ data.id }} {{ data.datum|date('d.m.Y') }} - {{ data.rechnungssumme }}<br>
+                        {% else %}
+                            Keine Rechnungen vorhanden
+                        {% endfor %}
+
+                        <div class="ui hidden divider"></div>
+                    </div>
+
+                    <!-- tab section -->
+
+                    <div class="ui tab" data-tab="pflichtstunden">
+                        <div class="ui hidden divider"></div>
+                        <h3 class="ui teal header">Übersicht der erfassten Pflichtstunden</h3>
+                        <table class="ui small stripped table">
+                            <thead>
+                                <tr>
+                                    <th>Jahr</th>
+                                    <th>Anzahl der Pflichtstunden</th>
+                                    <th>Bemerkung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in mitglieder.pflichtstunden %}
+                                <tr>
+                                    <td>{{ data.jahr|date('Y') }}</td>
+                                    <td>{{ data.anzahl }}</td>
+                                    <td>{{ data.bemerkung }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3">
+                                        Es wurden bislang keine Pflichtstunden erfasst.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="ui hidden divider"></div>
+                    </div>
+
+                </div>   <!-- end segment -->
+
+                <div class="ui secondary segment">
+                    <a href="{{ path('mitglieder') }}" class="ui button icon">Zurück</a>
+
+                    <a href="{{ path('mitglied_bearbeiten', {'id': mitglieder.id}) }}" class="ui button right floated blue icon">
+                        <i class="icon edit"></i> Bearbeiten
+                    </a>
+                    <!-- <button onclick="window.print();return false;" class="ui button icon primary">
+                        <i class="icon print"></i> Stammdatenblatt rucken
+                    </button> -->
+
+
+                </div>
+            </div> <!--end segments -->
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        $('#submenu .button').tab();
+    })
+</script>
+{% endblock %}

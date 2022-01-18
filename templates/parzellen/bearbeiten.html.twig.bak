@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Neuer Verein{% endblock %}
+
+{% block body %}
+
+    <h1>Parzelle bearbeiten</h1>
+
+    
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }}
+
+        <button type="submit" name="button">Speichern</button>
+    {{ form_end(form) }}
+
+    <div>
+        <a href="{{ path('parzellen') }}">Abbrechen</a>
+    </div>
+{% endblock %}

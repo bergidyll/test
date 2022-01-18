@@ -1,0 +1,354 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rechnung erstellen{% endblock %}
+
+{% block body %}
+
+
+<div class="page-content">
+    <div class="ui centered grid">
+        <div class="twelve wide column">
+
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'ui form'}}) }}
+
+            <div class="ui grid">
+                <div class="ui ten wide column">
+
+                    <div style="background:#f5f5f5;padding:20px">
+                        {% if mitglied.status is same as 'A' %}
+                        {{ mitglied.anrede}}<br>
+                        {{ mitglied.vorname}} {{ mitglied.nachname}}<br>
+                        {{ mitglied.strasse}}<br>
+                        {{ mitglied.plz}} {{ mitglied.ort}}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="six wide column">
+                    <div class="fields">
+                        <div class="field">
+                            {{ form_label(form.rechnungsnummer) }}
+                            {{ form_widget(form.rechnungsnummer) }}
+                            {{ form_errors(form.rechnungsnummer)}}
+                        </div>
+                        <div class="field">
+                            {{ form_label(form.datum) }}
+                            {{ form_widget(form.datum) }}
+                            {{ form_errors(form.datum)}}
+                        </div>
+                        <div class="field">
+                            {{ form_label(form.faelligkeitsdatum) }}
+                            {{ form_widget(form.faelligkeitsdatum) }}
+                            {{ form_errors(form.faelligkeitsdatum)}}
+                        </div>
+                    </div>
+                    <div class="fields">
+                        <div class="field">
+                            {{ form_label(form.rechnungsstatus) }}
+                            {{ form_widget(form.rechnungsstatus) }}
+                            {{ form_errors(form.rechnungsstatus)}}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui grid">
+                <div class="sixteen wide column">
+                    <h2>
+                        {{ form_widget(form.rechnungstyp)}} {{ 'now'|date_modify('-1 year')|date('Y') }} / {{ 'now'|date('Y') }} für Garten {{ mitglied.parzelle.nummer }}
+                    </h2>
+                </div>
+                <div class="sixteen wide column">
+                    <table class="ui small celled striped table">
+                        <thead>
+                            <tr>
+                                <th class="one wide">Pos.</th>
+                                <th class="ten wide">Bezeichnung</th>
+                                <th class="one wide">Menge</th>
+                                <th class="two wide right aligned">Einzelbetrag</th>
+                                <th class="two wide right aligned">Gesamtbetrag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set pos = 1 %}
+
+                            {% if mitglied.zbMitgliedsbeitrag != "1" %}
+                            <tr>
+                                <td>{{ pos }} {% set pos = pos + 1 %}</td>
+                                <td>Beitrag aktiv <br> ab {{ mitglied.eintrittsdatum|date('m/Y') }}</td>
+                                <td class="right aligned">1</td>
+                                <td class="right aligned">{{ verein.mitgliedsbeitragAktiv|format_currency('EUR', locale='de') }}</td>
+                                <td class="right aligned">{{ verein.mitgliedsbeitragAktiv|format_currency('EUR', locale='de') }}</td>
+                            </tr>
+                            {% endif %}
+
+                            {# toDo nur wenn Garten einen Pächter mit Status P hat #}
+                            {% if verein.mitgliedsbeitragPassiv  %}
+                            <tr>
+                                <td>{{ pos }} {% set pos = pos + 1 %}</td>
+                                <td>Beitrag passiv</td>
+                                <td class="right aligned">1</td>
+                                <td class="right aligned">{{ verein.mitgliedsbeitragPassiv|format_currency('EUR', locale='de') }}</td>
+                                <td class="right aligned">{{ verein.mitgliedsbeitragPassiv|format_currency('EUR', locale='de') }}</td>
+                            </tr>
+                            {% endif %}
+
+                            <tr>
+                                <td>{{ pos }} {% set pos = pos + 1 %}</td>
+                                <td>Pacht</td>
+                                <td class="right aligned">{{ mitglied.parzelle.groesse|number_format(2, ',') }} m²</td>
+                                <td class="right aligned">{{ verein.gartenpacht|format_currency('EUR', locale='de') }}</td>
+                                <td class="right aligned">{{ (mitglied.parzelle.groesse * verein.gartenpacht)|format_currency('EUR', locale='de') }}</td>
+                            </tr>
+                            {% if mitglied.zbPflichtstunden != "0" %}
+                            {% for item in mitglied.pflichtstunden %}
+                                {% if item.jahr|date('Y') == "now"|date_modify("-1 year")|date('Y') %}
+
+                                    {% if item.anzahl < verein.pflichtstundensoll %}
+                                        <tr>
+                                            <td>
+                                                {{ pos }}
+                                                {% set pos = pos + 1 %}
+                                            </td>
+                                            <td>nicht geleistete Pflichtstunden</td>
+                                            <td class="right aligned">
+                                                {% if item.anzahl < verein.pflichtstundensoll %}
+                                                {{ (verein.pflichtstundensoll - item.anzahl)|number_format(2, ',') }}
+                                                {% elseif item.anzahl == 0 %}
+                                                {{ verein.pflichtstundensoll }}
+                                                {% endif %}
+
+                                            </td>
+                                            <td class="right aligned">{{ verein.pflichtstundenbetrag|format_currency('EUR', locale='de') }}</td>
+                                            <td class="right aligned">
+                                                {{ (verein.pflichtstundenbetrag * (verein.pflichtstundensoll - item.anzahl))|format_currency('EUR', locale='de') }}<br>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% endif %}
+
+                            {% for item in mitglied.parzelle.ablesungs %}
+                                {% if item.jahr == "now"|date_modify("-1 year")|date('Y') %}
+                                {% if mitglied.parzelle.strom != "1" %}
+                                <tr>
+                                    <td class="error" colspan="5">
+                                        Parzelle hat keine Strom! Prüfen Sie die Eingaben!
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>Strom <br>
+                                        Zählerstand Vorjahr {{ item.stromzaehlerstandAlt|number_format(2, ',') }} - Zählerstand aktuell: {{ item.stromzaehlerstand|number_format(2, ',') }}
+                                    </td>
+                                    <td class="right aligned">{{ item.stromdiff|number_format(2, ',') }} kWh</td>
+                                    <td class="right aligned">{{ verein.grundpreisStrom|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">
+                                        {{ (item.stromdiff * verein.grundpreisStrom)|format_currency('EUR', locale='de') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>
+                                        Fixkosten Strom
+                                    </td>
+                                    <td class="right aligned">1</td>
+                                    <td class="right aligned">{{ verein.fixkostenStrom|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">{{ verein.fixkostenStrom|format_currency('EUR', locale='de') }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>
+                                        Vorrauszahlung Strom
+                                        <br>60% des aktuellen Verbrauches
+                                    </td>
+                                    <td class="right aligned">{{ (item.stromdiff * 60 / 100)|number_format(2, ',') }} kWh</td>
+                                    <td class="right aligned">{{ verein.grundpreisStrom|format_currency('EUR', locale='de')}}</td>
+                                    <td class="right aligned">
+                                        {{ ((item.stromdiff * 60 / 100) * verein.grundpreisStrom)|format_currency('EUR', locale='de') }}
+                                    </td>
+                                </tr>
+                                {% if mitglied.parzelle.trinkwasser != "1" %}
+                                <tr>
+                                    <td class="error" colspan="5">
+                                        Parzelle hat keinen Wasseranschluß! Prüfen Sie die Eingaben!
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>Wasser <br>
+                                        Zählerstand Vorjahr {{ item.wasserstandAlt|number_format(2, ',') }} - Zählerstand aktuell: {{ item.wasserstand|number_format(2, ',') }}
+                                    </td>
+                                    <td class="right aligned">{{ item.wasserdiff }} kWh</td>
+                                    <td class="right aligned">{{ verein.grundpreisWasser|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">
+                                        {{ (item.wasserdiff * verein.grundpreisWasser)|format_currency('EUR', locale='de') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>
+                                        Fixkosten Wasser
+                                    </td>
+                                    <td class="right aligned">1</td>
+                                    <td class="right aligned">{{ verein.fixkostenWasser|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">{{ verein.fixkostenWasser|format_currency('EUR', locale='de') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>
+                                        Vorrauszahlung Wasser
+                                        <br>60% des aktuellen Verbrauches
+                                    </td>
+                                    <td class="right aligned">{{ (item.wasserdiff * 60 / 100)|number_format(2, ',') }} kWh</td>
+                                    <td class="right aligned">{{ verein.grundpreisWasser|format_currency('EUR', locale='de')}}</td>
+                                    <td class="right aligned">
+                                        {{ ((item.wasserdiff * 60 / 100) * verein.grundpreisWasser)|format_currency('EUR', locale='de') }}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% if (item.jahr == "now"|date_modify("-1 year")|date('Y')) and (item.stromzaehlertausch == '1') %}
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>Zählertausch</td>
+                                    <td class="right aligned">1</td>
+                                    <td class="right aligned">{{ verein.betragStromzaehlertausch|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">
+                                        {{ verein.betragStromzaehlertausch|format_currency('EUR', locale='de') }}
+                                    </td>
+                                </tr>
+                                {% endif %}
+
+                                {% if mitglied.parkplatz %}
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>Parkplatz</td>
+                                    <td class="right aligned">{{ mitglied.parkplatzanzahl }}</td>
+                                    <td class="right aligned">{{ verein.parkplatzpacht|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">{{ (mitglied.parkplatzanzahl * verein.parkplatzpacht)|format_currency('EUR', locale='de') }}</td>
+                                </tr>
+                                {% endif %}
+
+                                {## toDo: Berechnung wenn weniger als ein Jahr #}
+                                {% if (mitglied.zeitungsbezug != "0") %}
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>Zeitung "Der Kleingärtner"</td>
+                                    <td class="right aligned">12</td>
+                                    <td class="right aligned">{{ verein.zeitungsbetrag|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned">{{ verein.zeitungsbetrag|format_currency('EUR', locale='de') }}</td>
+                                </tr>
+                                {% endif %}
+
+                                <tr>
+                                    <td>
+                                        {{ pos }}
+                                        {% set pos = pos + 1 %}
+                                    </td>
+                                    <td>anteilige Pacht öffentliche Fläche</td>
+                                    <td class="right aligned"></td>
+                                    <td class="right aligned">{{ verein.gartenpacht|format_currency('EUR', locale='de') }}</td>
+                                    <td class="right aligned"></td>
+                                </tr>
+
+
+                            {% endfor %}
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+    </table>
+
+    <div class="hidden-fields">
+        {{ form_row(form.mitglieder) }}
+    </div>
+
+
+
+
+    <button type="submit" name="button">Speichern</button>
+{{ form_end(form) }}
+
+<div>
+    <a href="{{ path('rechnungen') }}">Abbrechen</a>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        function getUrlVars()
+        {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        var id = getUrlVars()["id"];
+
+        // console.log(id);
+        $("#rechnungen_mitglieder > option").each(function() {
+            if (this.value == id) {
+                this.selected = 'selected';
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notiz erstellen!{% endblock %}
+
+{% block body %}
+
+<h1>Notiz erstellen</h1>
+
+{{ dump()}}
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" name="button">Speichern</button>
+{{ form_end(form) }}
+
+<div>
+    <a href="{{ path('dashboard') }}">Abbrechen</a>
+</div>
+
+{% endblock %}

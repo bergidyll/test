@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Übersicht Nutzer{% endblock %}
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <h1 class="ui teal header">Übersicht Nutzer</h1>
+        </div>
+
+        <div class="four wide column a-right">
+            <a href="{{ path('user_create') }}" class="ui button small green js-add"><i class="icon plus"></i> Neuer Benutzer</a>
+        </div>
+        <div class="sixteen wide column">
+
+            <table class="ui sortable selectable small striped table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>E-Mail</th>
+                        <th>Berechtigung</th>
+                        <th class="three wide no-sort">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in user %}
+                    <tr>
+                        <td>{{ item.lastname }}, {{ item.firstname}}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.roles|default([])|join(', ')|lower }}</td>
+                        <td class="actions">
+                            <a href="{{ path('user_edit', {'id': item.id}) }}" class="ui button icon mini">
+                                <i class="icon edit"></i> Bearbeiten
+                            </a>
+                            <a href="{{ path('user_delete', {'id': item.id}) }}" class="ui button icon mini red trash">
+                                <i class="icon trash"></i> Löschen
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script type="text/javascript">
+
+</script>
+
+{% endblock %}

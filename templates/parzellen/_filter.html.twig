@@ -1,0 +1,32 @@
+<div>
+    <div id="plots-all" class="ui label green js-plots-filter">
+        Gärten gesamt
+        <div class="detail">{{ parzellen|length }}</div>
+    </div>
+    <div id="state-f" class="ui label js-plots-filter">
+        Freie Gärten
+        <div class="detail">
+            {% set counter = 0 %}
+            {% for item in parzellen %}
+                {% if item.status == 'F' %}
+                    {% set counter = counter + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {{ counter }}
+        </div>
+    </div>
+    <div id="state-g" class="ui label js-plots-filter">
+        Gekündigte Gärten
+        <div class="detail">
+            {% set counter = 0 %}
+            {% for item in parzellen %}
+                {% if item.status == 'G' %}
+                    {% set counter = counter + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {{ counter }}
+        </div>
+    </div>
+</div>

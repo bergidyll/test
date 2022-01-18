@@ -1,0 +1,186 @@
+.page-header {
+    background: #1b1c1d;
+    padding: 1em;
+    margin-bottom: 20px;
+}
+
+.ui.message.overlay {
+    position: fixed;
+    z-index: 500;
+    top:100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-right: 60px;
+    box-shadow: 0 0 16px rgba(0,0,0,.3);
+}
+
+.page-header .ui.grid > .column.logo {
+    display: flex;
+    align-items: center;
+}
+
+.js-toggle-hide {
+    display: none;
+}
+.page-header + .segment {
+    margin-top: 0;
+}
+.page-header .logo img {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+.page-header .logo .ui.header {
+    margin: 0;
+    display: inline;
+}
+.page-header .right.menu {
+    color: #fff;
+}
+.ui.table td {
+    white-space: nowrap;
+}
+.no-br {
+    border-radius: 0 !important;
+}
+.page-content {
+    padding: 1rem;
+}
+
+.table.tr-clickable td {
+    cursor: pointer;
+}
+
+.table td.actions {
+    display: flex;
+    align-items: center;
+}
+.ui.header span {
+    font-weight: normal;
+}
+.a-right {
+    text-align: right;
+}
+
+.table td.actions a {
+    color: rgba(0, 0, 0, 0.87);
+}
+.ui.form .field input.warning {
+    background: #FFFAF3;
+    border-color: #C9BA9B;
+    color: #573A08;
+}
+
+.ui.form .hidden-fields {
+    display: none;
+}
+
+.ui.form fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.ui.form input[type="date"] {
+    padding-top: 0.545em;
+    padding-botto: 0.545em;
+}
+
+.ui.form .fields.fix-label .field label {
+    width: 100px !important;
+}
+
+.ui.modal>.content {
+    margin: 0;
+}
+
+.new-assurance {
+    display: none;
+}
+
+.font-size-big {
+    font-size: 16px;
+}
+
+.js-plots-filter,
+.js-member-filter {
+    cursor: pointer;
+}
+.leading-text {
+    font-size: 18px;
+}
+.invoice-container {
+    background: #fff;
+    border:1px solid #eee;
+    padding: 25px !important;
+    width: 960px;
+    margin: 0 auto;
+    page-break-after: always;
+
+}
+
+.invoice-header {
+    border-bottom: 1px solid #444;
+    margin-bottom: 15px;
+}
+.ui.table tr.invoice-full-amount td {
+    border-bottom: 2px solid #444 !important;
+    font-weight: bold;
+    padding-bottom: 6px;
+    padding-top: 6px;
+}
+.invoice-data {
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+
+.invoice-container .table.basic tr td {
+    white-space: nowrap;
+}
+.invoice-container .table.basic tr td.right input {
+    text-align: right;
+}
+.invoice-container .table.basic tr td input {
+    padding-left: .67857143em;
+    padding-right: .67857143em;
+}
+
+.invoice-info {
+    background-color: #f1f1f1;
+    padding: 3px 6px;
+}
+.invoice-footer {
+    border-top: 1px solid #444;
+    margin-top: 20px;
+
+}
+.invoice-address {
+}
+
+.invoice-address .right.aligned {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.ui.sortable.table thead th.no-sort {
+    cursor: default;
+}
+
+.button.active {
+    cursor: default !important;
+}
+
+.ui.table td.actions {
+    display: flex;
+    justify-content: flex-end;
+}
+.ui.icon.message>.icon:not(.close) {
+    font-size: 2em;
+}
+
+.dark-mode,
+.dark-mode .ui.table {
+    color: #fff;
+    background-color: #333;
+}

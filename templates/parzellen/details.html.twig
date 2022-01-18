@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parzelle Details{% endblock %}
+
+{% block body %}
+
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="row">
+            <div class="twelve wide column">
+                <h1 class="ui teal header">Garten {{ parzellen.nummer }}</h1>
+            </div>
+        </div>
+
+        <div class="three wide column">
+            <div id="submenu" class="ui vertical labeled icon basic fluid buttons">
+                <div class="ui basic button active" data-tab="uebersicht">
+                    <i class="icon angle right"></i> Übersicht
+                </div>
+                <div class="ui basic button" data-tab="strom">
+                    <i class="icon angle right"></i> Strom
+                </div>
+                <div class="ui basic button" data-tab="wasser">
+                    <i class="icon angle right"></i> Wasser
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <div class="ui small yellow icon message">
+                <div class="content">
+                    Datenbank-ID: {{ parzellen.id }}<br>
+                    Erstellt am: {{ parzellen.createdat|date('d.m.Y') }}<br>
+                    Zuletzt bearbeitet am: {{ parzellen.updatedat|date('d.m.Y') }}<br>
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <a href="{{ path('parzelle_loeschen', {'id': parzellen.id}) }}" onclick="return confirm('Wirklich löschen?')" class="ui button icon red trash">
+                <i class="icon trash"></i> Löschen
+            </a>
+        </div>
+
+        <div class="ten wide column">
+            <div class="ui segments">
+                <div class="ui segment">
+                    <div class="ui tab active" data-tab="uebersicht">
+                        <div class="ui form">
+                            <div class="fields">
+                                <div class="two wide field">
+                                    <label for="">Gartennummer</label>
+                                    <input type="text" value="{{ parzellen.nummer }}" readonly>
+                                </div>
+                                <div class="six wide field">
+                                    <label for="">Status</label>
+                                    <input type="text" value="{{ parzellen.status }}" readonly>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="six wide field">
+                                    <label>Bereich</label>
+                                    <input type="text" value="{{ parzellen.bereich }}" readonly>
+                                </div>
+                                <div class="three wide field">
+                                    <label>Größe</label>
+                                    <div class="ui right labeled input">
+                                        <input type="text" value="{{ parzellen.groesse}}" readonly>
+                                        <div class="ui label">m²</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui hidden divider"></div>
+                            <div class="fields">
+                                <div class="inline field">
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" {% if parzellen.strom == true %}checked="checked"{% endif%} disabled="disabled">
+                                        <label>Strom</label>
+                                    </div>
+                                </div>
+                                <div class="inline field">
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" {% if parzellen.trinkwasser == true %}checked="checked"{% endif%} disabled="disabled">
+                                        <label>Trinkwasser</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Pächter</h4>
+                            <div class="fields">
+                            {% for data in parzellen.mitglieders %}
+                                <div class="seven wide field">
+                                    <label for="">
+                                        {% if data.status is same as 'A' %}
+                                        1. Pächter
+                                        {% else %}
+                                        2. Pächter
+                                        {% endif %}
+                                    </label>
+                                    <input type="text" readonly name="" value="{{ data.vorname }}, {{ data.nachname }}">
+                                </div>
+                                <div class="one wide field">
+                                    <label for="">&nbsp;</label>
+                                    <a href="{{ path('mitglied_details', {'id': data.id}) }}" title="Zum Pöchter" class="ui icon button">
+                                        <i class="icon arrow circle right"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                            </div>
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Notizen</h4>
+
+                            <div class="fields">
+                                <div class="sixteen wide field">
+                                    <label for="">Notizen</label>
+                                    <textarea rows="8" cols="80" readonly>{{ parzellen.notiz }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Tab Segmanet #}
+
+                    <div class="ui tab" data-tab="strom">
+                        <div class="ui hidden divider"></div>
+                        <h3 class="ui teal header">Strom</h3>
+                        <table class="ui small stripped table">
+                            <thead>
+                                <tr>
+                                    <th>Jahr</th>
+                                    <th>Zählernummer</th>
+                                    <th>Zählerstand Vorjahr</th>
+                                    <th>Zählerstand aktuell</th>
+                                    <th>Verbauch</th>
+                                    <th>Zählertausch</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in parzellen.ablesungs %}
+                                <tr>
+                                    <td>{{ item.jahr }}</td>
+                                    <td>{{ item.stromzaehlernummer }}</td>
+                                    <td>{{ item.stromzaehlerstandAlt }}</td>
+                                    <td>{{ item.stromzaehlerstand }}</td>
+                                    <td>{{ item.stromdiff }}</td>
+                                    <td>{{ item.stromzaehlertausch }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6">
+                                        Keine Stromablesung erfasst.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    {# Tab Segmanet #}
+
+                </div>
+                <div class="ui segment secondary">
+                    <a href="{{ path('parzellen') }}" class="ui button icon">Zurück</a>
+                    <a href="{{ path('parzelle_bearbeiten', {'id': parzellen.id}) }}" class="ui button right floated blue icon">
+                        <i class="icon edit"></i> Bearbeiten
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        $('#submenu .button').tab();
+    })
+</script>
+{% endblock %}

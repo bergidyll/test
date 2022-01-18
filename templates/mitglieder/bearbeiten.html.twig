@@ -1,0 +1,295 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mitglied bearbeiten{% endblock %}
+
+{% block body %}
+
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="row">
+            <div class="twelve wide column">
+                <h1 class="ui teal header">Mitglied: {{ mitglieder.vorname }} {{ mitglieder.nachname }} bearbeiten</h1>
+            </div>
+        </div>
+        <div class="three wide column">
+            <div id="submenu" class="ui vertical labeled icon basic fluid buttons">
+                <div class="ui basic button active" data-tab="stammdaten">
+                    <i class="icon angle right"></i> Stammdaten
+                </div>
+                <div class="ui basic button" data-tab="verein">
+                    <i class="icon angle right"></i> Mitgliedschaft
+                </div>
+                <div class="ui basic button" data-tab="rechnungen">
+                    <i class="icon angle right"></i> Rechnungen
+                </div>
+                <div class="ui basic button" data-tab="pflichtstunden">
+                    <i class="icon angle right"></i> Pflichtstunden
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <div class="ui small yellow message">
+                <div class="content">
+                    Datenbank-ID: {{ mitglieder.id }}<br>
+                    Erstellt am: {{ mitglieder.createdat|date('d.m.Y') }}<br>
+                    Zuletzt bearbeitet am: {{ mitglieder.updatedat|date('d.m.Y') }}<br>
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <a href="{{ path('mitglied_loeschen', {'id': mitglieder.id}) }}" onclick="return confirm('Wirklich löschen?')" class="ui button icon red trash">
+                <i class="icon trash"></i> Löschen
+            </a>
+        </div>
+
+        <div class="ten wide column">
+            <div class="ui segments">
+                <div class="ui segment">
+
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+
+                    <div class="ui tab active" data-tab="stammdaten">
+                        <div class="ui form">
+                            <div class="fields">
+                                <div class="three wide field">
+                                    {{ form_label(form.anrede) }}
+                                    {{ form_widget(form.anrede) }}
+                                </div>
+                                <div class="six wide field">
+                                    {{ form_label(form.vorname) }}
+                                    {{ form_widget(form.vorname) }}
+                                </div>
+                                <div class="seven wide field">
+                                    {{ form_label(form.nachname) }}
+                                    {{ form_widget(form.nachname) }}
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="three wide field">
+                                    {{ form_label(form.geburtsdatum) }}
+                                    {{ form_widget(form.geburtsdatum) }}
+                                </div>
+                                <div class="thirteen wide field">
+                                    {{ form_label(form.beruf) }}
+                                    {{ form_widget(form.beruf) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Anschrift</h4>
+
+                            <div class="fields">
+                                <div class="three wide field">
+                                    {{ form_label(form.plz) }}
+                                    {{ form_widget(form.plz) }}
+                                </div>
+                                <div class="five wide field">
+                                    {{ form_label(form.ort) }}
+                                    {{ form_widget(form.ort) }}
+                                </div>
+                                <div class="eight wide field">
+                                    {{ form_label(form.strasse) }}
+                                    {{ form_widget(form.strasse) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Kontakt</h4>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    {{ form_label(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_label(form.telefon) }}
+                                    {{ form_widget(form.telefon) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- tab section -->
+                    <div class="ui tab" data-tab="verein">
+                        <div class="ui form">
+                            <div class="fields">
+                                <div class="two wide field">
+                                    {{ form_label(form.parzelle) }}
+                                    {{ form_widget(form.parzelle) }}
+                                </div>
+                                <div class="three wide field">
+                                    {{ form_label(form.status) }}
+                                    {{ form_widget(form.status) }}
+                                </div>
+                                <div class="three wide field">
+                                    {{ form_label(form.mitgliedsnummer) }}
+                                    {{ form_widget(form.mitgliedsnummer) }}
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="three wide field">
+                                    {{ form_label(form.eintrittsdatum) }}
+                                    {{ form_widget(form.eintrittsdatum) }}
+                                </div>
+                                <div class="three wide field">
+                                    {{ form_label(form.austrittsdatum) }}
+                                    {{ form_widget(form.austrittsdatum) }}
+                                </div>
+                                <div class="three wide field">
+                                    {{ form_label(form.kaution) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.kaution) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="six wide field">
+                                    {{ form_label(form.funktion) }}
+                                    {{ form_widget(form.funktion) }}
+                                </div>
+                                <div class="three wide field">
+                                    {{ form_label(form.zeitungsbezug) }}
+                                    {{ form_widget(form.zeitungsbezug) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Parkplatz</h4>
+                            <div class="fields">
+                                <div class="three wide field">
+                                    {{ form_label(form.parkplatz) }}
+                                    {{ form_widget(form.parkplatz) }}
+                                </div>
+                                <div class="three wide field">
+                                    {{ form_label(form.parkplatzanzahl) }}
+                                    {{ form_widget(form.parkplatzanzahl) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Zahlungsbefreit</h4>
+
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    {{ form_widget(form.zb_mitgliedsbeitrag) }}
+                                    {{ form_label(form.zb_mitgliedsbeitrag) }}
+                                </div>
+                            </div>
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    {{ form_widget(form.zb_pflichtstunden) }}
+                                    {{ form_label(form.zb_pflichtstunden) }}
+                                </div>
+                            </div>
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    {{ form_widget(form.zb_zeitung) }}
+                                    {{ form_label(form.zb_zeitung) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+
+                            <div class="fields">
+                                <div class="sixteen wide field">
+                                    {{ form_label(form.notiz) }}
+                                    {{ form_widget(form.notiz) }}
+                                </div>
+                            </div>
+
+                            <div class="hidden-fields">
+                                {{ form_row(form.createdat) }}
+                                {{ form_row(form.updatedat) }}
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- tab section -->
+
+                    <div class="ui tab" data-tab="rechnungen">
+                        <div class="ui hidden divider"></div>
+
+                        <h3 class="ui teal header">Übersicht der erstellten Rechnungen</h3>
+                        <div class="ui hidden divider"></div>
+                        {% for data in mitglieder.rechnungen %}
+                            {{ data.id }} {{ data.datum|date('d.m.Y') }} - {{ data.rechnungssumme }}<br>
+                        {% else %}
+                            Keine Rechnungen vorhanden
+                        {% endfor %}
+
+                        <div class="ui hidden divider"></div>
+                    </div>
+
+                    <!-- tab section -->
+
+                    <div class="ui tab" data-tab="pflichtstunden">
+                        <div class="ui hidden divider"></div>
+                        <h3 class="ui teal header">Übersicht der erfassten Pflichtstunden</h3>
+                        <table class="ui small stripped table">
+                            <thead>
+                                <tr>
+                                    <th>Jahr</th>
+                                    <th>Anzahl der Pflichtstunden</th>
+                                    <th>Bemerkung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in mitglieder.pflichtstunden %}
+                                <tr>
+                                    <td>{{ data.jahr|date('Y') }}</td>
+                                    <td>{{ data.anzahl }}</td>
+                                    <td>{{ data.bemerkung }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3">
+                                        Es wurden bislang keine Pflichtstunden erfasst.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="ui hidden divider"></div>
+                    </div>
+
+                </div>   <!-- end segment -->
+
+                <div class="ui secondary segment">
+                    <a href="{{ path('mitglieder') }}" class="ui button icon">Abbrechen</a>
+
+                    <button type="submit" class="ui right floated button primary">
+                        <i class="icon save"></i> Speichern
+                    </button>
+
+                    <!-- <button onclick="window.print();return false;" class="ui button icon primary">
+                        <i class="icon print"></i> Stammdatenblatt rucken
+                    </button> -->
+                    {{ form_end(form) }}
+
+
+                </div>
+            </div> <!--end segments -->
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        $('#submenu .button').tab();
+    })
+</script>
+{% endblock %}

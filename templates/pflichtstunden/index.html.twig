@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PflichtstundenController!{% endblock %}
+
+{% block body %}
+
+<h1>Pflichtstunden</h1>
+
+<div>
+    <a href="{{ path('pflichtstunden_neu') }}">Erfassen</a>
+</div>
+
+<div>
+</div>
+
+<table>
+    <tr>
+        <th>Jahr</th>
+        <th>Name</th>
+        <th>Erf. Stunden</th>
+        <th>offene Stunden</th>
+        <th>Bemerkung</th>
+    </tr>
+
+
+
+    {% for pflichtstunde in pflichtstunden %}
+    <tr>
+        <td colspan="4">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            {{ pflichtstunde.jahr|date('Y') }}
+        </td>
+        <td>
+            {{ pflichtstunde.mitglieder.name }}
+        </td>
+        <td>
+            {{ pflichtstunde.anzahl }}
+        </td>
+        <td>
+            {{ (verein.pflichtstundensoll - pflichtstunde.anzahl) }}
+        </td>
+        <td>
+            {{ pflichtstunde.bemerkung }}
+        </td>
+
+        <td>
+            <a href="{{ path('pflichtstunden_bearbeiten', {'id': pflichtstunde.id}) }}">Edit</a>
+            <a href="{{ path('pflichtstunden_loeschen', {'id': pflichtstunde.id}) }}">Delete</a>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+{% endblock %}

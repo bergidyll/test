@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MitgliederController!{% endblock %}
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <h1 class="ui teal header">Übersicht Mitglieder</h1>
+            {{ include('mitglieder/_filter.html.twig') }}
+        </div>
+
+        <div class="four wide column a-right">
+            <a href="{{ path('mitglied_neu') }}" class="ui button small green js-add"><i class="icon plus"></i> Neues Mitglied</a>
+        </div>
+
+        <div class="sixteen wide column">
+            <div style="overflow-x:auto;">
+                <table class="ui sortable selectable striped table tr-clickable">
+                    <thead>
+                        <tr>
+                            <th class="default-sort">Garten</th>
+                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Geb.-datum</th>
+                            <th>E-mail</th>
+                            <th>Telefon</th>
+                            <th>Anschrift</th>
+                            <th>Funktion</th>
+                            <th>Mitglied seit</th>
+                            <th>Parkplatz</th>
+                            <th>Kaution</th>
+                            <th>Bemerkung</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mitglied in mitglieder %}
+                        <tr class="state-{{ mitglied.status|lower }}" data-id="{{ mitglied.id }}">
+                            <td>
+                                {% if mitglied.parzelle %}
+                                {{ mitglied.parzelle.nummer }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ mitglied.status }}
+                            </td>
+                            <td>
+                                {{ mitglied.anrede }} {{ mitglied.vorname }} {{ mitglied.nachname }}
+                            </td>
+                            <td>
+                                {{ mitglied.geburtsdatum|date('d.m.Y') }}
+                            </td>
+                            <td>
+                                {{ mitglied.email }}
+                            </td>
+                            <td>
+                                {{ mitglied.telefon }}
+                            </td>
+                            <td>
+                                {{ mitglied.plz }} {{ mitglied.ort }}, {{ mitglied.strasse }}
+                            </td>
+                            <td>
+                                {{ mitglied.funktion }}
+                            </td>
+                            <td>
+                                {{ mitglied.eintrittsdatum|date('d.m.Y') }}
+                            </td>
+                            <td>
+                                {% if mitglied.parkplatz %}
+                                {{ mitglied.parkplatzanzahl }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if mitglied.kaution %}
+                                {{ mitglied.kaution|format_currency('EUR', locale='de') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if mitglied.notiz %}
+                                <div class="ui icon small button" data-content="{{ mitglied.notiz }}">
+                                    <i class="comments icon"></i>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="actions">
+                                <a href="{{ path('mitglied_bearbeiten', {'id': mitglied.id}) }}" class="ui small icon button">
+                                    <i class="icon edit"></i>
+                                </a>
+                                {# Rechnungen nur für aktive Mitglider
+                                {% if mitglied.status is same as 'A' %}
+                                    <a href="{{ path('rechnungen_neu', {'id': mitglied.id, 'type': 'J'}) }}" class="ui small button">Jahresrechnung</a>
+                                {% elseif mitglied.status is same as 'G' %}
+                                <a href="{{ path('rechnungen_neu', {'id': mitglied.id, 'type': 'E'}) }}" class="ui small button">Endabrechnung</a>
+                                {% endif %}
+                                 #}
+
+                                <div class="ui labeled icon top right pointing dropdown button">
+                                    <i class="euro icon"></i>
+                                    <span class="text">Rechnung</span>
+                                    <div class="menu">
+                                        <a href="{{ path('rechnungen_neu', {'id': mitglied.id, 'type': 'J'}) }}" class="item">Jahresrechnung</a>
+                                        <a href="{{ path('rechnungen_neu', {'id': mitglied.id, 'type': 'E'}) }}"
+                                            class="item {% if mitglied.status != 'G' %}disabled{% endif %}">
+                                            Endabrechnung
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script src="/dist/tablesort.js"></script>
+<script>
+    $(document).ready(function() {
+        $('table.sortable').tablesort().data('tablesort').sort($("th.default-sort"));
+
+        $('tbody tr td:not(.actions)').on('click', function() {
+            var id = $(this).parent('tr').attr('data-id');
+            window.location.href = 'mitglied/details/' + id;
+
+        })
+
+        $('tbody tr:not(.state-a)').hide();
+
+        $('.js-member-filter').on('click', function(e) {
+            e.preventDefault();
+            $('.js-member-filter').removeClass('green');
+            $('tbody tr').show();
+
+            var state = $(this).attr('id');
+
+            $('tbody tr:not(.' + state + ')').hide();
+            $(this).addClass('green');
+
+        });
+
+        $('#state-all').on('click', function(e) {
+            e.preventDefault();
+            $('tbody tr').show();
+
+        })
+    })
+</script>
+{% endblock %}

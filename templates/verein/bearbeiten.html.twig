@@ -1,0 +1,563 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verein bearbeiten{% endblock %}
+
+{% use 'form/errors.html.twig' %}
+
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="row">
+            <div class="twelve wide column">
+                <h1 class="ui teal header">Verein bearbeiten</h1>
+            </div>
+        </div>
+        <div class="three wide column">
+            <div id="submenu" class="ui vertical labeled icon basic fluid buttons">
+                <div class="ui basic button tab active" data-tab="stammdaten">
+                    <i class="icon angle right"></i>Verein
+                </div>
+                <div class="ui basic button tab" data-tab="beitrag">
+                    <i class="icon angle right"></i>Beiträge & Kaution
+                </div>
+                <div class="ui basic button tab" data-tab="versicherung">
+                    <i class="icon angle right"></i>Versicherungen
+                </div>
+                <div class="ui basic button tab" data-tab="pacht">
+                    <i class="icon angle right"></i>Pacht & Steuer
+                </div>
+                <div class="ui basic button tab" data-tab="strom">
+                    <i class="icon angle right"></i>Strom & Wasser
+                </div>
+                <div class="ui basic button tab" data-tab="umlagen">
+                    <i class="icon angle right"></i>Umlagen
+                </div>
+            </div>
+        </div>
+
+        <div class="ten wide column">
+            <div class="ui segments">
+                    <div class="ui segment">
+
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'ui form'}}) }}
+
+                        {% if form_errors(form) %}
+                        <div class="ui error message">
+                            {{ form_errors(form) }}
+                        </div>
+                        {% endif %}
+
+                        <div class="ui tab active" data-tab="stammdaten">
+
+                            <h3 class="ui teal header">Verein - Stammdaten</h3>
+                            <div class="ui hidden divider"></div>
+
+                            <div class="fields">
+                                <div class="twelve wide field">
+                                    {{ form_label(form.name)}}
+                                    {{ form_widget(form.name)}}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.gruendungsdatum)}}
+                                    {{ form_widget(form.gruendungsdatum)}}
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="seven wide field">
+
+                                </div>
+                                <div class="nine wide field">
+                                    <label for="">&nbsp;</label>
+                                    <div class="ui mini teal message">
+                                        Erlaubte Dateitypen: PNG, JPG, GIF
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Kontakt</h4>
+
+                            <div class="fields">
+                                <div class="three wide field">
+                                    {{ form_label(form.plz) }}
+                                    {{ form_widget(form.plz) }}
+                                </div>
+                                <div class="five wide field">
+                                    {{ form_label(form.ort) }}
+                                    {{ form_widget(form.ort) }}
+                                </div>
+                                <div class="eight wide field">
+                                    {{ form_label(form.anschrift) }}
+                                    {{ form_widget(form.anschrift) }}
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="eight wide field">
+                                    {{ form_label(form.telefon) }}
+                                    {{ form_widget(form.telefon) }}
+                                </div>
+                                <div class="eight wide field">
+                                    {{ form_label(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Bankverbindung</h4>
+
+                            <div class="fields">
+                                <div class="five wide field">
+                                    {{ form_label(form.iban) }}
+                                    {{ form_widget(form.iban) }}
+                                </div>
+                                <div class="five wide field">
+                                    {{ form_label(form.bic) }}
+                                    {{ form_widget(form.bic) }}
+                                </div>
+                                <div class="six wide field">
+                                    {{ form_label(form.bank) }}
+                                    {{ form_widget(form.bank) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Registrierung</h4>
+
+                            <div class="fields">
+                                <div class="field five wide">
+                                    {{ form_label(form.register) }}
+                                    {{ form_widget(form.register) }}
+                                </div>
+                                <div class="field three wide">
+                                    {{ form_label(form.registernummer) }}
+                                    {{ form_widget(form.registernummer) }}
+                                </div>
+                                <div class="field eight wide">
+                                    {{ form_label(form.registergericht) }}
+                                    {{ form_widget(form.registergericht) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Finanzamt</h4>
+                            <div class="fields">
+                                <div class="field five wide">
+                                    {{ form_label(form.steuernummer) }}
+                                    {{ form_widget(form.steuernummer) }}
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Vorstand</h4>
+
+                            <div class="sixteen wide column">
+                                <div class="three wide column">
+                                    <div class="fields fix-label">
+                                        <div class="field inline">
+                                            <label for="">Vorsitzender</label>
+                                            <input type="text" class="warning" readonly value="Max Mustermann">
+                                        </div>
+                                    </div>
+                                    <div class="fields fix-label">
+                                        <div class="field inline">
+                                            <label for="">Stellvertreter</label>
+                                            <input type="text" class="warning" readonly value="Gerda Beispiel">
+                                        </div>
+                                    </div>
+                                    <div class="fields fix-label">
+                                        <div class="field inline">
+                                            <label for="">Kassierer</label>
+                                            <input type="text" class="warning" readonly value="John Doe">
+                                        </div>
+                                    </div>
+                                    <div class="fields fix-label">
+                                        <div class="field inline">
+                                            <label for="">Fachberater</label>
+                                            <input type="text" class="warning" readonly value="Jamie Harrington">
+                                        </div>
+                                    </div>
+                                    <div class="fields fix-label">
+                                        <div class="field inline">
+                                            <label for="">Schriftführer</label>
+                                            <input type="text" class="warning" readonly value="Jane Doe">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui message">
+                                        <p>Zuordnung des Vorstandes erfolgt über Mitglieder (Funktion im Verein).</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="beitrag">
+                            <h3 class="ui teal header">Beiträge</h3>
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Mitgliedsbeitrag Verein</h4>
+
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.mitgliedsbeitrag_aktiv) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.mitgliedsbeitrag_aktiv) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.mitgliedsbeitrag_passiv)}}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.mitgliedsbeitrag_passiv)}}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Andere Beiträge</h4>
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.beitragbundesverband) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.beitragbundesverband) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.beitraglandesverband) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.beitraglandesverband) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.beitragregionalverband) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.beitragregionalverband) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Sonstiges</h4>
+
+                            <div class="fields">
+                                <div class="two wide field">
+                                    {{ form_label(form.pflichtstundensoll) }}
+                                    {{ form_widget(form.pflichtstundensoll) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.pflichtstundenbetrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.pflichtstundenbetrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.kautionsbetrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.kautionsbetrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.zeitungsbetrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.zeitungsbetrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="versicherung">
+                            <h3 class="ui teal header">Versicherungen</h3>
+                            <div class="ui hidden divider"></div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.vers_1) }}
+                                    {{ form_widget(form.vers_1) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.vers_1_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.vers_1_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.vers_2) }}
+                                    {{ form_widget(form.vers_2) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.vers_2_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.vers_2_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.vers_3) }}
+                                    {{ form_widget(form.vers_3) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.vers_3_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.vers_3_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.vers_4) }}
+                                    {{ form_widget(form.vers_4) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.vers_4_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.vers_4_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.vers_5) }}
+                                    {{ form_widget(form.vers_5) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.vers_5_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.vers_5_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="pacht">
+                            <h3 class="ui teal header">Pacht & Steuer</h3>
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Pacht</h4>
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.gartenpacht) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.gartenpacht) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.gesamtflaeche) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.gesamtflaeche) }}
+                                        <div class="ui label">m²</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.parkplatzpacht) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.parkplatzpacht) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Grundsteuer</h4>
+
+                            <div class="fields">
+                                <div class="four wide field">
+                                    <div class="ui right labeled input">
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    <div class="ui right labeled input">
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="strom">
+                            <h3 class="ui teal header">Strom & Wasser</h3>
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Strom</h4>
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.grundpreis_strom) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.grundpreis_strom) }}
+                                        <div class="ui label">€ / kWh</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.fixkosten_strom) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.fixkosten_strom) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.betrag_stromzaehlertausch) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.betrag_stromzaehlertausch) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui hidden divider"></div>
+                            <h4 class="ui teal header">Wasser</h4>
+
+                            <div class="fields">
+                                <div class="four wide field">
+                                    {{ form_label(form.grundpreis_wasser) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.grundpreis_wasser) }}
+                                        <div class="ui label">€ / m³</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.fixkosten_wasser) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.fixkosten_wasser) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.betrag_wasserzaehlertausch) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.betrag_wasserzaehlertausch) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab section -->
+                        <div class="ui tab" data-tab="umlagen">
+                            <h3 class="ui teal header">Umlagen</h3>
+                            <div class="ui hidden divider"></div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.umlage_1) }}
+                                    {{ form_widget(form.umlage_1) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.umlage_1_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.umlage_1_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.umlage_2) }}
+                                    {{ form_widget(form.umlage_2) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.umlage_2_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.umlage_2_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.umlage_3) }}
+                                    {{ form_widget(form.umlage_3) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.umlage_3_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.umlage_3_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.umlage_4) }}
+                                    {{ form_widget(form.umlage_4) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.umlage_4_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.umlage_4_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="ten wide field">
+                                    {{ form_label(form.umlage_5) }}
+                                    {{ form_widget(form.umlage_5) }}
+                                </div>
+                                <div class="four wide field">
+                                    {{ form_label(form.umlage_5_betrag) }}
+                                    <div class="ui right labeled input">
+                                        {{ form_widget(form.umlage_5_betrag) }}
+                                        <div class="ui label">€</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--end segment -->
+
+                    <div class="ui secondary segment">
+                        <a href="{{ path('verein_details', {'id': 1}) }}" class="ui button">Abbrechen</a>
+                        <button type="submit" class="ui right floated button primary"><i class="icon save"></i> Speichern</button>
+
+                    {{ form_end(form) }}
+
+                </div>
+
+
+            </div> <!--end segments -->
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+
+        $('#submenu .button').tab();
+
+    })
+</script>
+{% endblock %}

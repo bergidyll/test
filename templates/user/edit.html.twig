@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nutzer{% endblock %}
+
+{% use 'form/errors.html.twig' %}
+
+{% block body %}
+
+<div class="page-content">
+    <div class="ui centered grid">
+
+        <div class="ten wide column">
+            <h1 class="ui teal header">Benutzer bearbeiten</h1>
+            <div class="ui segments">
+                <div class="ui segment">
+
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'ui form'}}) }}
+
+                    {{ form_errors(form) }}
+
+
+                    <div class="fields equal width">
+                        <div class="field">
+                            {{ form_label(form.firstname)}}
+                            {{ form_widget(form.firstname)}}
+                        </div>
+                        <div class="field">
+                            {{ form_label(form.lastname)}}
+                            {{ form_widget(form.lastname)}}
+                        </div>
+                    </div>
+                    <div class="fields equal width">
+                        <div class="field">
+                            {{ form_label(form.email)}}
+                            {{ form_widget(form.email)}}
+                        </div>
+                    </div>
+                    <div class="fields equal width">
+                        <div class="field">
+                            {{ form_label(form.plainPassword)}}
+                            {{ form_widget(form.plainPassword)}}
+                        </div>
+                    </div>
+                    <div class="fields">
+                        <div class="field">
+                            {{ form_label(form.role)}}
+                            {{ form_widget(form.role)}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ui secondary segment">
+                    <a class="ui button" href="{{ path('user_index') }}">Abbrechen</a>
+                    <button type="submit" class="ui right floated button primary"><i class="icon save"></i> Speichern</button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+
+{% endblock %}

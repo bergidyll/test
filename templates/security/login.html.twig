@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Login</title>
+
+        <link href="{{ asset('dist/semantic.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('dist/layout.css') }}" rel="stylesheet"/>
+        <style type="text/css">
+          body { background-color: #eee; }
+          body > .grid { height: 100%; }
+          .image { margin-top: -100px; }
+          .column { max-width: 450px; }
+        </style>
+    </head>
+    <body style="padding: 200px 50px;">
+
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <img src="{{ asset('dist/img/logo.png') }}" class="image">
+                    <div class="content">KGV Verwaltung</div>
+                </h2>
+
+                <form class="ui large form"  method="post">
+                {% if error %}
+                    <div class="ui message negative">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                            </div>
+                        </div>
+                        <div class="field inline">
+                            <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                            <label for="remember_me">Keep me logged in</label>
+                        </div>
+
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <button type="submit"  class="ui fluid large teal submit button">Anmelden</button>
+
+                        {#
+                            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                            See https://symfony.com/doc/current/security/remember_me.html
+
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+                        #}
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </body>
+</html>

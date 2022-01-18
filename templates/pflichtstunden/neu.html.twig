@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pflichtstunden erfassen!{% endblock %}
+
+{% block body %}
+
+<h1>Pflichtstunden erfassen</h1>
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" name="button">Speichern</button>
+{{ form_end(form) }}
+
+<div>
+    <a href="{{ path('pflichtstunden') }}">Abbrechen</a>
+</div>
+
+{% endblock %}

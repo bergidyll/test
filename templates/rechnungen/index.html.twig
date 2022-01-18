@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MitgliederController!{% endblock %}
+
+{% block body %}
+
+
+<h1>Übersicht Rechnungen</h1>
+
+<div>
+    <a href="{{ path('rechnungen_neu') }}">Neue Rechnung</a>
+</div>
+
+<div class="">
+
+</div>
+
+<table>
+
+    <tr>
+        <th>Rg-Status</th>
+        <th>Rg-Datum</th>
+        <th>Rg-Datum</th>
+        <th>Fällig</th>
+        <th>Name</th>
+        <th>Rgumme</th>
+    </tr>
+    {% for rechnung in rechnungen %}
+    <tr>
+        <td colspan="4">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{ rechnung.rechnungsstatus }}
+        </td>
+        <td>
+            {{ rechnung.rechnungsnummer }}
+        </td>
+        <td>
+            {{ rechnung.datum|date('d.m.Y') }}
+        </td>
+        <td>
+            {{ rechnung.faelligkeitsdatum|date('d.m.Y') }}
+        </td>
+        <td>
+            {{ rechnung.mitglieder.name }}
+        </td>
+        <td>
+        <td>
+            {{ rechnung.rechnungssumme }}
+        </td>
+
+        <td>
+            <a href="{{ path('rechnungen_bearbeiten', {'id': rechnung.id}) }}">Eidt</a>
+
+        <td>
+            <a href="{{ path('rechnungen_stornieren', {'id': rechnung.id}) }}">Storno</a>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+
+
+{% endblock %}

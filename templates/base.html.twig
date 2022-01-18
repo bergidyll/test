@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>
+            {% block title %}Welcome!{% endblock %}
+        </title>
+
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+
+        {% block stylesheets %}
+            <link href="{{ asset('dist/semantic.min.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('dist/layout.css') }}" rel="stylesheet"/>
+            <link href="{{ asset('dist/print.css') }}" rel="stylesheet" media="print"/>
+        {% endblock %}
+
+    </head>
+    <body>
+
+        <div class="page-header">
+            <div class="ui grid">
+                <div class="three wide column logo">
+                    <a href="{{ path('dashboard') }}">
+                        <img src="{{ asset('dist/img/logo.png') }}" alt="">
+                        <h3 class="ui teal header">KGV Verwaltung</h3>
+                    </a>
+                </div>
+                <div class="thirteen wide column">
+                    <div class="ui inverted secondary menu">
+                        {% set current_path = app.request.get('_route') %}
+
+                        <a href="{{ path('mitglieder') }}" class="item {% if app.request.attributes.get('_route') in [
+                            'mitglieder',
+                            'mitglied_details',
+                            'mitglied_neu'
+                        ] %}active green{% endif %}"
+                        >
+                            Mitglieder
+                        </a>
+                        <a href="{{ path('parzellen') }}" class="item {% if app.request.attributes.get('_route') in [
+                            'parzellen',
+                            'parzellen_details',
+                            'parzellen_neu'
+                        ] %}active green{% endif %}"
+                        >
+                            Parzellen
+                        </a>
+                        <a href="{{ path('rechnungen') }}" class="item {% if app.request.attributes.get('_route') in [
+                            'rechnungen',
+                            'rechnungen_details',
+                            'rechnungen_neu'
+                        ] %}active green{% endif %}"
+                        >
+                            Rechnungen
+                        </a>
+                        <a href="{{ path('pflichtstunden') }}" class="item {% if app.request.attributes.get('_route') in [
+                            'pflichtstunden',
+                            'pflichtstunden_bearbeiten',
+                            'pflichtstunden_neu'
+                        ] %}active green{% endif %}"
+                        >
+                            Pflichtstunden
+                        </a>
+                        <a href="{{ path('ablesungen') }}" class="item {% if app.request.attributes.get('_route') in [
+                            'ablesungen',
+                            'ablesungen_bearbeiten',
+                            'ablesungen_neu'
+                        ] %}active green{% endif %}"
+                        >
+                            Ablesungen
+                        </a>
+                        <a href="{{ path('verein_details', {'id': '1'}) }}" class="item {% if app.request.attributes.get('_route') in [
+                            'verein',
+                            'verein_details',
+                            'verein_bearbeiten',
+                            'verein_neu'
+                        ] %}active green{% endif %}"
+                        >
+                            Verein
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('user_index') }}" class="item {% if app.request.attributes.get('_route') in [
+                            'user_index',
+                            'user_show',
+                            'user_edit',
+                            'user_create'
+                        ] %}active red{% endif %}"
+                        >
+                            <i class="icon user secret"></i> Admin
+                        </a>
+                        {% endif %}
+
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <div class="right menu">
+                            <div class="ui pointing dropdown item">
+                                <div class="text">
+                                    <strong>{{ app.user.firstname }} {{ app.user.lastname }}</strong>
+                                </div>
+                                <i class="icon dropdown"></i>
+                                <div class="menu">
+                                    <a href="{{ logout_path(key = null) }}" class="item">
+                                        <i class="icon sign-out"></i> Logout
+                                    </a>
+                                    <a href="#" id="toggle-darkmode" class="item">
+                                        <i class="icon adjust"></i> Darkmode
+                                    </a>
+                                    <a href="#" id="toggle-fullscreen" class="item">
+                                        <i class="icon desktop"></i> Vollbild
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="ui overlay big message {{ label }}">
+                    <i class="close icon"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
+        <script src="/dist/semantic.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                $('.message .close').on('click', function() {
+                    $(this).closest('.message').fadeOut();
+                });
+
+
+                $('#toggle-darkmode').on('click', function(e) {
+                    e.preventDefault();
+                    $(this).toggleClass('active');
+                    $('body').toggleClass('dark-mode');
+                });
+
+                // fullscreen toggle
+                $('#toggle-fullscreen').on('click',function(e) {
+                    e.preventDefault();
+                	if(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement) { //in fullscreen, so exit it
+                		if(document.exitFullscreen) {
+                			document.exitFullscreen();
+                		} else if(document.msExitFullscreen) {
+                			document.msExitFullscreen();
+                		} else if(document.mozCancelFullScreen) {
+                			document.mozCancelFullScreen();
+                		} else if(document.webkitExitFullscreen) {
+                			document.webkitExitFullscreen();
+                		}
+                	} else { //not fullscreen, so enter it
+                		if(document.documentElement.requestFullscreen) {
+                			document.documentElement.requestFullscreen();
+                		} else if(document.documentElement.webkitRequestFullscreen) {
+                			document.documentElement.webkitRequestFullscreen();
+                		} else if(document.documentElement.mozRequestFullScreen) {
+                			document.documentElement.mozRequestFullScreen();
+                		} else if(document.documentElement.msRequestFullscreen) {
+                			document.documentElement.msRequestFullscreen();
+                		}
+                	}
+                });
+
+                // flash messages close
+                $('.message .close').on('click', function() {
+                    $(this).closest('.message').transition('fade');
+                });
+                // flash messages hide
+                setTimeout(function(){
+                    $(".message.overlay").fadeOut(800);
+                }, 5000)
+
+                $('.js-delete').on('click', function(e) {
+                    e.preventDefault();
+                    $('.modal.delete-success').modal('show');
+                });
+                // dropdown
+                $('.ui.dropdown').dropdown({
+                    action: 'select'
+                });
+            });
+        </script>
+
+        {% block javascripts %}{% endblock %}
+
+
+
+    </body>
+</html>

@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AblesungController!{% endblock %}
+
+{% block body %}
+
+
+<div class="page-content">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <h1 class="ui teal header">Ablesungen</h1>
+        </div>
+
+        <div class="sixteen wide column">
+
+            <table class="ui selectable small striped table">
+                <thead>
+                    <tr>
+                        <th>Parzelle</th>
+                        <th>Jahr</th>
+                        <th>Strom ZNr</th>
+                        <th>Zählerstand als</th>
+                        <th>Zählerstand neu</th>
+                        <th>Verbrauch</th>
+                        <th>Tausch Zähler</th>
+                        <th>Wasser ZNr</th>
+                        <th>Zählerstand alt</th>
+                        <th>Zählerstand neu</th>
+                        <th>Verbrauch</th>
+                        <th>Tausch Wasseruhr</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for parzelle in parzellen %}
+                    {% if not parzelle.ablesungs is empty %}
+                    <tr>
+                        <td colspan="13"><strong>Garten: {{ parzelle.nummer }}</strong></td>
+                        {% for ablesung in parzelle.ablesungs %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>{{ ablesung.jahr }}</td>
+                            <td>{{ ablesung.stromzaehlernummer }}</td>
+                            <td>{{ ablesung.stromzaehlerstandAlt }}</td>
+                            <td>{{ ablesung.stromzaehlerstand }}</td>
+                            <td>{{ ablesung.stromdiff }}</td>
+                            <td>
+                                {% if ablesung.stromzaehlertausch == 1 %} <i class="icon green check"></i> {% endif %}
+                            </td>
+                            <td>{{ ablesung.wasserzaehlernummer }}</td>
+                            <td>{{ ablesung.wasserstandAlt }}</td>
+                            <td>{{ ablesung.wasserstand }}</td>
+                            <td>{{ ablesung.wasserdiff }}</td>
+                            <td>
+                                {% if ablesung.wasserzaehlertausch == 1 %} <i class="icon green check"></i> {% endif %}
+                            </td>
+                            <td class="actions">
+                                <a href="{{ path('ablesung_bearbeiten', {'id': ablesung.id}) }}" class="ui mini button">Edit</a>
+                                <a href="{{ path('ablesung_loeschen', {'id': ablesung.id}) }}" class="ui mini button">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                    {% else %}
+
+                    <tr>
+                        <td><strong>Garten: {{ parzelle.nummer }}</strong></td>
+
+                        <td colspan="12">
+                            <a href="{{ path('ablesungen_neu', {'id': parzelle.id}) }}" class="ui mini button">Ablesung erfassen</a>
+                        </td>
+                    </tr>
+
+                    {% endif %}
+
+
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
